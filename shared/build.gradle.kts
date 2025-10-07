@@ -1,4 +1,5 @@
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import java.util.Properties
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
@@ -53,3 +54,19 @@ android {
 
 version = "0.0.1"
 group = "com.example.newsreaderkmp"
+
+val  properties = Properties()
+properties.load(project.rootProject.file("local.properties").inputStream())
+
+publishing {
+    repositories {
+        maven {
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/ikrimaamanda/newsreaderkmp")
+            credentials {
+                username = properties.getProperty("github.user")
+                password = properties.getProperty("github.token")
+            }
+        }
+    }
+}
